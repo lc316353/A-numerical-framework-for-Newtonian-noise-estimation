@@ -1,0 +1,24 @@
+# --- large simulation outputs ---
+output/
+outputs/
+results/
+derived/
+**/output/
+
+# --- Salvus / wavefield / mesh / HDF5 / NetCDF (generated) ---
+*.h5
+*.hdf5
+*.nc
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

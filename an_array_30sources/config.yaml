@@ -1,0 +1,96 @@
+project:
+    name: "30sources"
+
+paths:
+    obs_json: "data/obs.json"
+    output_dir: "output"
+    fig_dir: "figures"
+
+domain:
+    x0: 0
+    x1: 20000
+    y0: -8000
+    y1: 0
+
+mesh:
+    reference_frequency_hz: 11
+    elements_per_wavelength: 2.0
+    mesh_file: "output/mesh/mesh.h5"
+
+absorbing_boundary:
+    width_m: 4000
+    side_sets: ["x0", "x1", "y0"]
+    taper_amplitude: 2.5
+
+materials:
+    crust:
+        vp_m_s: 3000
+        vp_vs_ratio: 1.7
+        rho_from_brocher: true
+
+simulation:
+    site_name: "local"     
+    ranks: 8
+    wall_time_s: 3600
+
+    time:
+        t0: 0.0
+        t1: 31.0
+        dt: 0.001
+
+    source:
+        type: "ricker"
+        center_frequency_hz: 2.0
+        time_shift_s: 1.0
+        direction: [0, 1]
+        fx: 0.0
+        fy: 1
+        side_set_name: "y1"
+
+    volume_output:
+        filename: "volume_output.h5"
+        format: "hdf5"
+        fields: ["gradient-of-displacement", "displacement"]
+        sampling_interval_steps: 10
+
+sources:
+    nsources: 30
+    seed: 20250330
+    locations:
+        seed: 42
+        x_left_min: 4500
+        x_left_width: 3500
+        x_right_min: 12000
+        x_right_width: 3500
+        y_source: 0.0
+
+    stf:
+        nsources: 30
+        duration_s: 30
+        fs_hz: 1000
+        output_h5: "data/stf.h5"
+
+        fmin_hz: 1.0
+        fmax_hz: 11.0
+        f_taper_start_hz: 10.0
+
+        amplitude: 3e-7
+        plot_example: true
+        plot_file: "figures/stf_1_noise.png"
+
+decompose:
+  time_window:
+    tmin_s: 10.0
+    tmax_s: 30.0
+
+  grid:
+    xmin: 8000.0
+    xmax: 12000.0
+    ymin: -4000.0
+    ymax: 0.0
+    interval: 20.0
+
+  outputs:
+    displacement: "output/derived/displacement_10_30s.nc"
+    div: "output/derived/div_10_30s.nc"
+    curl: "output/derived/curl_10_30s.nc"
