@@ -1,56 +1,72 @@
 project:
-  name: "one_source"
+    name: "one_source"
 
 paths:
-  obs_json: "data/obs.json"
-  output_dir: "output"
-  fig_dir: "figures"
+    obs_json: "data/obs.json"
+    output_dir: "output"
+    fig_dir: "figures"
 
 domain:
-  x0: 0
-  x1: 20000
-  y0: -8000
-  y1: 0
+    x0: 0
+    x1: 20000
+    y0: -8000
+    y1: 0
 
 mesh:
-  reference_frequency_hz: 5
-  elements_per_wavelength: 2.0
-  mesh_file: "output/mesh/mesh.h5"
+    reference_frequency_hz: 5
+    elements_per_wavelength: 2.0
+    mesh_file: "output/mesh/mesh.h5"
 
 absorbing_boundary:
-  width_m: 4000
-  side_sets: ["x0", "x1", "y0"]
-  taper_amplitude: 2.5
+    width_m: 4000
+    side_sets: ["x0", "x1", "y0"]
+    taper_amplitude: 2.5
 
 materials:
-  crust:
-    vp_m_s: 3000
-    vp_vs_ratio: 1.7
-    rho_from_brocher: true
+    crust:
+        vp_m_s: 3000
+        vp_vs_ratio: 1.7
+        rho_from_brocher: true
 
 simulation:
-  site_name: "local"   
-  ranks: 8
-  wall_time_s: 3600
+    site_name: "local"   
+    ranks: 8
+    wall_time_s: 3600
 
-  time:
-    t0: 0.0
-    t1: 10.0
-    dt: 0.001
+    time:
+        t0: 0.0
+        t1: 10.0
+        dt: 0.001
 
-  source:
-    type: "ricker"
-    center_frequency_hz: 2.0
-    time_shift_s: 1.0
-    direction: [0, 1]
-    fx: 0.0
-    fy: 5.32e5
-    side_set_name: "y1"
+    source:
+        type: "ricker"
+        center_frequency_hz: 2.0
+        time_shift_s: 1.0
+        direction: [0, 1]
+        fx: 0.0
+        fy: 5.32e5
+        side_set_name: "y1"
 
+    volume_output:
+        filename: "volume_output.h5"
+        format: "hdf5"
+        fields: ["gradient-of-displacement", "displacement"]
+        sampling_interval_steps: 10
 
-  volume_output:
-    filename: "volume_output.h5"
-    format: "hdf5"
-    fields: ["gradient-of-displacement", "displacement"]
-    sampling_interval_steps: 10
+Newtonian_noise:
+    tag: "pos1"
+    scaling: 2e-3
 
+    time_window:
+        tmin: 4.5                 
+        tmax: 8.5
+    
+    test_mass:
+        M: 211
+        location: [[16000, -6000]]   #A list of coordinates [[x1,y1],[x2,y2],...]
+        orientation: [[1, 0]]        #A list of unit vectors [e1,e2,...]
+
+    integration_domain:
+        dx: 20                 
+        integration_radius: 2000
+        cavern_radius: 5
