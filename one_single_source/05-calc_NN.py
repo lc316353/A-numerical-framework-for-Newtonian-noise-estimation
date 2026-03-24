@@ -241,6 +241,10 @@ def main():
     np.save(tag_dir/"divergences", loc_div)
     np.save(tag_dir/"curls", loc_curl)
     
+    cfg_clone_path = tag_dir / "config.yaml"
+    with cfg_clone_path.open("w") as f:
+        yaml.safe_dump(cfg, f, indent=4, sort_keys=False)
+    
     endtime = systime.time()
     print(f"Wrote forces and local displacements: {tag_dir}")
     print("Finished in " + str(np.round((endtime - starttime)/60, 2)) + " min")
