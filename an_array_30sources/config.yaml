@@ -1,3 +1,4 @@
+#every quantity is given in SI units
 project:
     name: "30sources"
 
@@ -27,6 +28,7 @@ materials:
         vp_m_s: 3000
         vp_vs_ratio: 1.7
         rho_from_brocher: true
+        rho_kg_m3: 2223.858
 
 simulation:
     site_name: "local"     
@@ -79,18 +81,41 @@ sources:
         plot_file: "figures/stf_1_noise.png"
 
 decompose:
-  time_window:
-    tmin_s: 10.0
-    tmax_s: 30.0
+    time_window:
+        tmin_s: &tmin 10.0
+        tmax_s: &tmax 30.0
 
-  grid:
-    xmin: 8000.0
-    xmax: 12000.0
-    ymin: -4000.0
-    ymax: 0.0
-    interval: 20.0
+    grid:
+        xmin: 8000.0
+        xmax: 12000.0
+        ymin: -4000.0
+        ymax: 0.0
+        interval: &interval 20.0
 
-  outputs:
-    displacement: "output/derived/displacement_10_30s.nc"
-    div: "output/derived/div_10_30s.nc"
-    curl: "output/derived/curl_10_30s.nc"
+    outputs:
+        displacement: "output/derived/displacement_10_30s.nc"
+        div: "output/derived/div_10_30s.nc"
+        curl: "output/derived/curl_10_30s.nc"
+
+Newtonian_noise:
+    tag: "pos1"
+    scaling: 3e8
+
+    time_window:
+        tmin: *tmin                 
+        tmax: *tmax
+    
+    test_mass:
+        M: 211
+        location: [[10000, -2000]]   #A list of coordinates [[x1,y1],[x2,y2],...]
+        orientation: [[1, 0]]        #A list of unit vectors [e1,e2,...]
+
+    integration_domain:
+        dx: *interval                 
+        integration_radius: 2000
+        cavern_radius: 5
+
+    p_fraction:
+        x_bounds: [9500, 10500] 
+        y_bounds: [-2500, -1500]     #The window in which p should be averaged.
+        points: 11                  #Number of points per dimension on which p should be evaluated
