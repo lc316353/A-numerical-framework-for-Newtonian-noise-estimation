@@ -114,8 +114,11 @@ def main():
     # Load wave field
     # ---------------------------
     
-    # === Read mesh ===    
-    wavefield_path = cfg["mesh"]["mesh_file"]
+    # === Read coordinates ===    
+    out_dir = Path(cfg["paths"]["output_dir"])
+    sim_dir = out_dir / "sim"
+    wavefield_path = sim_dir / cfg["simulation"]["volume_output"]["filename"]
+    
     coordinates = h5py.File(wavefield_path, "r")["coordinates_ELASTIC"][:]
     x2d = coordinates[:, :, 0]
     y2d = coordinates[:, :, 1]
