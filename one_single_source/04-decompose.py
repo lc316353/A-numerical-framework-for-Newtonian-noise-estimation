@@ -57,9 +57,9 @@ def main():
     # ---------------------------
     # Output files (keep simple; no extra config keys required)
     # ---------------------------
-    out_disp = derived_dir / "displacement.nc"
-    out_div = derived_dir / "div.nc"
-    out_curl = derived_dir / "curl.nc"
+    out_disp = derived_dir / "displacement.h5"
+    out_div = derived_dir / "div.h5"
+    out_curl = derived_dir / "curl.h5"
 
     # ---------------------------
     # Build point list from structured coordinates

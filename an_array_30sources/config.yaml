@@ -93,9 +93,9 @@ decompose:
         interval: &interval 20.0
 
     outputs:
-        displacement: "output/derived/displacement_10_30s.nc"
-        div: "output/derived/div_10_30s.nc"
-        curl: "output/derived/curl_10_30s.nc"
+        displacement: "output/derived/displacements.h5"
+        div: "output/derived/div.h5"
+        curl: "output/derived/curl.h5"
 
 Newtonian_noise:
     tag: "pos1"
